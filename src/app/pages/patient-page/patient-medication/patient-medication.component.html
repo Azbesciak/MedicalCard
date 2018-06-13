@@ -1,0 +1,18 @@
+
+<mgl-timeline [toggle]="false" [alternate]="true">
+  <mgl-timeline-entry *ngFor="let entry of flatObservations">
+    <mgl-timeline-entry-header>
+      <div>{{entry.code.text || entry.code.coding[0].display}}</div>
+    </mgl-timeline-entry-header>
+    <mgl-timeline-entry-content>
+      <div>
+        <div *ngFor="let comp of entry.components">
+          {{comp.code.text}} - {{comp.valueQuantity.value}} {{comp.valueQuantity.unit}}
+        </div>
+
+      </div>
+    </mgl-timeline-entry-content>
+    <mgl-timeline-entry-dot [color]="'accent'" [size]="30"></mgl-timeline-entry-dot>
+    <mgl-timeline-entry-side>{{entry.issued | date:'medium'}}</mgl-timeline-entry-side>
+  </mgl-timeline-entry>
+</mgl-timeline>

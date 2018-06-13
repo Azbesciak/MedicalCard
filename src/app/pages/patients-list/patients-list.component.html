@@ -1,0 +1,11 @@
+<mat-card id="search">
+  <mat-form-field id="name-search">
+    <input matInput placeholder="Name" [(ngModel)]="searchedName">
+  </mat-form-field>
+  <button mat-button (click)="getPatientsWithName()">
+    <mat-icon>search</mat-icon>Search
+  </button>
+  <button mat-button [disabled]="!previousPage">previous</button>
+  <button mat-button [disabled]="!nextPage">next</button>
+</mat-card>
+<app-table [data]="patients" [fields]="fields" [onRowClick]="onRowClick.bind(this)"></app-table>

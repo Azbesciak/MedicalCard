@@ -1,0 +1,54 @@
+<div class="wrapper">
+  <mat-card class="chart">
+    <mat-card-title style="text-align: center">
+      Energy Consumption by devices
+    </mat-card-title>
+    <mat-card-content>
+      <div class="loading-spinner" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+      </div>
+      <app-chart [consumptionsBus]="consumptionsBus"></app-chart>
+    </mat-card-content>
+  </mat-card>
+  <div class="selection">
+    <mat-card class="date-select">
+      <mat-form-field>
+        <input matInput [matDatepicker]="dateFromDatePick" placeholder="Date from" [value]="dateFrom">
+        <mat-datepicker-toggle matSuffix [for]="dateFromDatePick"></mat-datepicker-toggle>
+        <mat-datepicker #dateFromDatePick></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="dateToDatePick" placeholder="Date to" [value]="dateTo">
+        <mat-datepicker-toggle matSuffix [for]="dateToDatePick"></mat-datepicker-toggle>
+        <mat-datepicker #dateToDatePick></mat-datepicker>
+      </mat-form-field>
+      <!--<md2-datepicker type="datetime" [(ngModel)]="dateFrom" placeholder="Date from" #dateFromDatePick-->
+                      <!--(change)="onDateChange()" [max]="dateTo || maxDate" class="date-from">-->
+      <!--</md2-datepicker>-->
+      <!--<md2-datepicker type="datetime" [(ngModel)]="dateTo" placeholder="Date to" #dateToDatePick-->
+                      <!--(change)="onDateChange()" [max]="maxDate" [min]="dateFrom" class="date-to">-->
+      <!--</md2-datepicker>-->
+      <mat-radio-group #dateIntervalRadio (change)="onDateIntervalChange($event)" [value]="selectedDateInterval" class="intervals">
+        <mat-radio-button *ngFor="let inter of dateIntervals" [value]="inter">
+          {{ inter.name }}
+        </mat-radio-button>
+      </mat-radio-group>
+      <button mat-raised-button color="primary" (click)="getConsumptions()" [disabled]="!canSearch()" class="search-button">Search</button>
+    </mat-card>
+    <mat-card>
+      <mat-selection-list #devicesView  class="devices">
+        <h3 mat-subheader>Devices</h3>
+        <mat-list-option *ngFor="let dev of []" [checkboxPosition]="'before'" [value]="dev" class="device-wrap">
+          <div class="device">
+            <app-key-value key="Id" [value]="dev.id" class="id-wrap"></app-key-value>
+            <mat-slide-toggle [checked]="dev.state" (click)="stopProp($event)"
+                              labelPosition="before" class="state-toggle">
+              State
+            </mat-slide-toggle>
+            <app-key-value key="Description" [value]="dev.description" class="description"></app-key-value>
+          </div>
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-card>
+  </div>
+</div>

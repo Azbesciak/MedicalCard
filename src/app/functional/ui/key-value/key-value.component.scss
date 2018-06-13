@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  font-size: 13px;
+  .label {
+    font-weight: 700;
+    &:after {
+      margin-right: 5px;
+      content: ":";
+    }
+  }
+}

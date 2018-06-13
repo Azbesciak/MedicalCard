@@ -1,0 +1,9 @@
+:host {
+  #search {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: minmax( 200px, 300px) auto auto auto;
+    grid-column-gap: 5px;
+  }
+}
+

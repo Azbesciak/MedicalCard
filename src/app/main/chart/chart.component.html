@@ -1,0 +1,21 @@
+<ngx-charts-line-chart
+  [results]="chartData"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  legendTitle="Device"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [autoScale]="autoScale">
+</ngx-charts-line-chart>
+<mat-form-field class="granulation-input">
+  <mat-select placeholder="granulation" [(value)]="currentGranulation"
+              (selectionChange)="onGranulationChange($event)">
+    <mat-option *ngFor="let g of granulations" [value]="g">
+      {{ g.type }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -1,0 +1,31 @@
+<app-section [sectionName]="'Name'">
+  <div *ngFor="let name of patient.names" class="names">
+    <span class="name-type">{{name.use}}</span>
+    <app-key-value [key]="'Title'" [value]="name.prefix"></app-key-value>
+    <app-key-value [key]="'First Name'" [value]="name.given.join(' ')"></app-key-value>
+    <app-key-value [key]="'Last Name'" [value]="name.family"></app-key-value>
+  </div>
+</app-section>
+<app-section [sectionName]="'Informations'">
+  <app-key-value [key]="'Gender'" [value]="patient.gender"></app-key-value>
+  <app-key-value [key]="'Birth date'" [value]="patient.birthDate| date"></app-key-value>
+  <app-key-value [key]="'Marital status'" [value]="patient.maritalStatus"></app-key-value>
+  <app-key-value key="Language" [value]="languages"></app-key-value>
+</app-section>
+<app-section [sectionName]="'Telecom'">
+  <div *ngFor="let tele of patient.telecoms" class="names">
+    <span class="name-type">{{tele.use}}</span>
+    <app-key-value [key]="'System'" [value]="tele.system"></app-key-value>
+    <div>{{tele.value}}</div>
+  </div>
+</app-section>
+<app-section [sectionName]="'Addresses'">
+  <div *ngFor="let address of patient.addresses" class="names">
+    <app-key-value [key]="'Line'" [value]="address.line.join(', ')"></app-key-value>
+    <app-key-value [key]="'Postal code'" [value]="address.postalCode"></app-key-value>
+    <app-key-value [key]="'City'" [value]="address.city"></app-key-value>
+    <app-key-value [key]="'State'" [value]="address.state"></app-key-value>
+    <app-key-value [key]="'Country'" [value]="address.country"></app-key-value>
+  </div>
+</app-section>
+

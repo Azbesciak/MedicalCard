@@ -1,0 +1,16 @@
+<!--<app-table [data]="observations"></app-table>-->
+<mat-card>
+  <mat-card-title>Patient {{patient?.id}}</mat-card-title>
+</mat-card>
+<mat-card>
+  <mat-card-title>Details</mat-card-title>
+  <app-patient-details *ngIf="patient" [patient]="patient"></app-patient-details>
+</mat-card>
+<mat-card>
+  <mat-card-title>Observations</mat-card-title>
+  <app-patient-observation *ngIf="observations" [observations]="observations"></app-patient-observation>
+</mat-card>
+<mat-card>
+  <mat-card-title>Medication requests</mat-card-title>
+  <app-patient-medication></app-patient-medication>
+</mat-card>

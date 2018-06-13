@@ -1,0 +1,10 @@
+:host {
+  .names {
+    display: grid;
+    grid-template-columns: max-content max-content max-content max-content max-content ;
+    grid-column-gap: 20px;
+    .name-type {
+      text-transform: capitalize;
+    }
+  }
+}
