@@ -10,6 +10,8 @@ import {PatientDetailsComponent} from './patient-page/patient-details/patient-de
 import {PatientMedicationComponent} from './patient-page/patient-medication/patient-medication.component';
 import {PatientObservationComponent} from './patient-page/patient-observation/patient-observation.component';
 import {MglTimelineModule} from 'angular-mgl-timeline';
+import { ObservationsChartComponent } from './patient-page/observations-chart/observations-chart.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   imports: [
@@ -17,14 +19,16 @@ import {MglTimelineModule} from 'angular-mgl-timeline';
     BrowserModule,
     FormsModule,
     FunctionalModule,
-    MglTimelineModule
+    MglTimelineModule,
+    NgxChartsModule
   ],
   declarations: [
     PatientsListComponent,
     PatientPageComponent,
     PatientDetailsComponent,
     PatientMedicationComponent,
-    PatientObservationComponent
+    PatientObservationComponent,
+    ObservationsChartComponent
   ],
   exports: [PatientsListComponent]
 })

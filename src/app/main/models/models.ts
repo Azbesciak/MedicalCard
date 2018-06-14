@@ -8,7 +8,6 @@ import Observation = fhir.Observation;
 import ObservationComponent = fhir.ObservationComponent;
 import Meta = fhir.Meta;
 import CodeableConcept = fhir.CodeableConcept;
-import Medication = fhir.Medication;
 import MedicationRequest = fhir.MedicationRequest;
 
 export interface Consumption {
@@ -59,7 +58,7 @@ export class FlatPatient {
 }
 
 export class FlatObservation {
-  constructor(public id: string, public code: CodeableConcept, public components: ObservationComponent[], public issued: Date,
+  constructor(public id: string, public code: CodeableConcept, public components: ObservationWithDateComponent[], public issued: Date,
               public effectiveDateTime: Date, public meta: Meta, public status: string) {
   }
 
@@ -68,7 +67,7 @@ export class FlatObservation {
     return new FlatObservation(res.id, res.code, components, new Date(res.issued), new Date(res.effectiveDateTime), res.meta, res.status);
   }
 
-  private static getComponents(res: Observation): ObservationComponent[] {
+  private static getComponents(res: Observation): ObservationWithDateComponent[] {
     const components = [];
     if (res.valueQuantity) {
       components.push({valueQuantity: res.valueQuantity, code: res.code});
@@ -76,8 +75,13 @@ export class FlatObservation {
     if (res.component) {
       components.push(...res.component);
     }
+    components.forEach(c => c.date = new Date(res.issued))
     return components;
   }
+}
+
+export interface ObservationWithDateComponent extends ObservationComponent {
+  date: Date;
 }
 
 export class FlatMedicationRequest {
@@ -116,20 +120,13 @@ export class ChartSeries {
   name: string;
   series: ChartValue[] = [];
 
-  constructor(values, granulation: any) {
-    this.name = values[0].device_id;
+  constructor(title, values) {
+    this.name = title;
+    this.series = values;
   }
 }
 
 export class ChartValue {
-  constructor(public value: number, public name: Date) {
-  }
-
-  static fromConsumption(c: any) {
-    return new ChartValue(c.value, new Date(c.measure_time));
-  }
-
-  static fromTime(value: number, name: any) {
-    return new ChartValue(value, new Date(name));
+  constructor(public value: number, public name: Date, public unit: string) {
   }
 }

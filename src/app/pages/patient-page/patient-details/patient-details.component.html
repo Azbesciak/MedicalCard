@@ -1,7 +1,7 @@
 <app-section [sectionName]="'Name'">
   <div *ngFor="let name of patient.names" class="names">
     <span class="name-type">{{name.use}}</span>
-    <app-key-value [key]="'Title'" [value]="name.prefix"></app-key-value>
+    <app-key-value [key]="'Title'" [value]="name.prefix" *ngIf="name.prefix"></app-key-value>
     <app-key-value [key]="'First Name'" [value]="name.given.join(' ')"></app-key-value>
     <app-key-value [key]="'Last Name'" [value]="name.family"></app-key-value>
   </div>

@@ -1,6 +1,63 @@
 :host {
+  .wrapper {
+    display: grid;
+    grid-row-gap: 20px;
+    grid-template-columns: 2fr 3fr;
+    @media screen and (max-width: 1600px){
+      grid-template-columns: 1fr 1fr;
+    }
+    @media screen and (max-width: 1300px){
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+    }
+  }
+
   mgl-timeline {
-    max-height: 400px;
-    overflow-y: scroll;
+    grid-column: 1;
+    max-height: 40vh;
+    overflow-y: overlay;
+  }
+  .chart {
+    grid-column: 2;
+    @media screen and (max-width: 1200px){
+      grid-column: 1;
+      grid-row: 2;
+    }
+    app-observations-chart {
+      width: 100%;
+      min-height: 400px;
+      display: inline-block;
+      @media screen and (min-height: 600px) {
+        max-height: 40vh;
+      }
+    }
+    .loading-spinner {
+      position: absolute;
+      z-index: 999;
+      overflow: show;
+      margin: auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: grid;
+      grid-template-columns: auto max-content auto;
+      grid-template-rows: auto max-content auto;
+      mat-spinner {
+        grid-row: 2;
+        grid-column: 2;
+        margin: auto;
+      }
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(97, 97, 97, 0.3);
+      }
+    }
   }
 }

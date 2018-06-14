@@ -1,4 +1,4 @@
-<mgl-timeline [toggle]="false" [alternate]="true">
+<mgl-timeline [toggle]="false" [alternate]="true" *ngIf="flatMedicationRequests?.length > 0; else noData">
   <mgl-timeline-entry *ngFor="let entry of flatMedicationRequests">
     <mgl-timeline-entry-header>
       <div>{{entry.description}}</div>
@@ -10,3 +10,6 @@
     <mgl-timeline-entry-side>{{entry.authoredOn | date:'short'}}</mgl-timeline-entry-side>
   </mgl-timeline-entry>
 </mgl-timeline>
+<ng-template #noData>
+  <app-not-found dataName="Medication requests"></app-not-found>
+</ng-template>

@@ -1,0 +1,21 @@
+<ngx-charts-line-chart
+  [results]="chartData"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  legendTitle="Observations"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [autoScale]="autoScale">
+</ngx-charts-line-chart>
+<mat-form-field class="observation-input">
+  <mat-select placeholder="Observation type" [(value)]="currentObservation"
+              (selectionChange)="onObservationChange($event)">
+    <mat-option *ngFor="let g of observationTypes" [value]="g">
+      {{ g }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
