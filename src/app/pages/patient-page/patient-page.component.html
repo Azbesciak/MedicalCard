@@ -12,5 +12,5 @@
 </mat-card>
 <mat-card>
   <mat-card-title>Medication requests</mat-card-title>
-  <app-patient-medication></app-patient-medication>
+  <app-patient-medication *ngIf="medicationRequests" [medicationRequest]="medicationRequests"></app-patient-medication>
 </mat-card>

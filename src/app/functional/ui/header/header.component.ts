@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog} from "@angular/material";
+import {Router} from '@angular/router';
+import {RoutingConstants} from '../../routing/RoutingConstants';
 
 @Component({
   selector: 'app-header',
@@ -8,11 +9,15 @@ import {MatDialog} from "@angular/material";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(
-    public dialog: MatDialog,) {}
+  constructor(private router: Router) {
+  }
 
 
   ngOnInit() {
+  }
+
+  goToHome() {
+    this.router.navigate([RoutingConstants.HOME_PAGE]);
   }
 
 }

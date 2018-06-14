@@ -8,6 +8,8 @@ import Observation = fhir.Observation;
 import ObservationComponent = fhir.ObservationComponent;
 import Meta = fhir.Meta;
 import CodeableConcept = fhir.CodeableConcept;
+import Medication = fhir.Medication;
+import MedicationRequest = fhir.MedicationRequest;
 
 export interface Consumption {
   id: number;
@@ -22,7 +24,8 @@ export class Granulation {
 }
 
 export class Field {
-  constructor(public visibleName: string, public fieldName: string) {}
+  constructor(public visibleName: string, public fieldName: string) {
+  }
 }
 
 export class FlatPatient {
@@ -36,12 +39,15 @@ export class FlatPatient {
     public names: HumanName[],
     public telecoms: ContactPoint[],
     public addresses: Address[],
-    public communications: PatientCommunication[]) {}
+    public communications: PatientCommunication[]) {
+  }
+
   static fromResource(r: Patient): FlatPatient {
     const namePart = r.name.find(n => n.use === 'official');
     return new FlatPatient(namePart.given[0], namePart.family, r.id, r.gender, new Date(r.birthDate),
       r.maritalStatus.text, r.name, r.telecom, r.address, r.communication);
   }
+
   static getFields(): Field[] {
     return [
       new Field('ID', 'id'),
@@ -54,7 +60,8 @@ export class FlatPatient {
 
 export class FlatObservation {
   constructor(public id: string, public code: CodeableConcept, public components: ObservationComponent[], public issued: Date,
-              public effectiveDateTime: Date, public meta: Meta, public status: string) {}
+              public effectiveDateTime: Date, public meta: Meta, public status: string) {
+  }
 
   static fromResource(res: Observation): FlatObservation {
     const components = FlatObservation.getComponents(res);
@@ -71,7 +78,38 @@ export class FlatObservation {
     }
     return components;
   }
+}
 
+export class FlatMedicationRequest {
+  constructor(public id: string, public authoredOn: Date, public description: string,
+              public medicationConcept: string, public raw: MedicationRequest) {
+  }
+
+  static fromResource(res: MedicationRequest) {
+    const desc = this.getDescription(res);
+    const med = this.getMedication(res);
+    return new FlatMedicationRequest(res.id, new Date(res.authoredOn), desc, med, res);
+  }
+
+  static getDescription(res: MedicationRequest) {
+    if (res.text != null) {
+      return res.text.div;
+    }
+    if (res.extension == null || res.extension.length === 0) {
+      return 'Description not found';
+    }
+    const desc = res.extension.find(e => !!e.valueCodeableConcept.text);
+    if (desc != null) {
+      return desc.valueCodeableConcept.text;
+    }
+    return res.extension[0].valueCodeableConcept.coding[0].display;
+  }
+
+  static getMedication(res: MedicationRequest) {
+    const med = res.medicationCodeableConcept;
+    if (!!med.text) return med.text;
+    return med.coding.map(c => c.display).join(', ');
+  }
 }
 
 export class ChartSeries {
