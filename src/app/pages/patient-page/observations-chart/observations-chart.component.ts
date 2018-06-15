@@ -13,15 +13,8 @@ export class ObservationsChartComponent implements OnInit {
   currentObservation: string = null;
   chartData: ChartSeries[];
   observationTypes: string[] = [];
-  showXAxis = true;
-  showYAxis = true;
-  gradient = true;
-  showLegend = true;
-  showXAxisLabel = true;
   xAxisLabel = 'Time';
-  showYAxisLabel = true;
   yAxisLabel = null;
-  autoScale = true;
   allValues: Map<string, ChartSeries[]> = new Map<string, ChartSeries[]>();
 
   get flatObservations(): FlatObservation[] {
@@ -44,10 +37,10 @@ export class ObservationsChartComponent implements OnInit {
     ).subscribe((v: ChartSeries) => this.allValues.set(v.name, [v]),
       () => {},
       () => {
-      this.observationTypes = Array.from(this.allValues.keys());
-      if (this.currentObservation == null && this.observationTypes.length > 0) {
-        this.setObservationType(this.observationTypes[0]);
-      }
+        this.observationTypes = Array.from(this.allValues.keys());
+        if (this.currentObservation == null && this.observationTypes.length > 0) {
+          this.setObservationType(this.observationTypes[0]);
+        }
       }
     );
   }

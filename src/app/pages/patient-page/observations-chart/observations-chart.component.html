@@ -1,15 +1,15 @@
 <ngx-charts-line-chart
   [results]="chartData"
-  [gradient]="gradient"
-  [xAxis]="showXAxis"
-  [yAxis]="showYAxis"
-  [legend]="showLegend"
+  [gradient]="true"
+  [xAxis]="true"
+  [yAxis]="true"
+  [legend]="true"
   legendTitle="Observations"
-  [showXAxisLabel]="showXAxisLabel"
-  [showYAxisLabel]="showYAxisLabel"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
   [xAxisLabel]="xAxisLabel"
   [yAxisLabel]="yAxisLabel"
-  [autoScale]="autoScale">
+  [autoScale]="true">
 </ngx-charts-line-chart>
 <mat-form-field class="observation-input">
   <mat-select placeholder="Observation type" [(value)]="currentObservation"
@@ -18,4 +18,4 @@
       {{ g }}
     </mat-option>
   </mat-select>
-</mat-form-field>
+</mat-form-field>\
