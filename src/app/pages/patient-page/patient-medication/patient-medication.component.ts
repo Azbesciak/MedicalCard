@@ -9,6 +9,7 @@ import {FlatMedicationRequest} from '../../models';
 })
 export class PatientMedicationComponent implements OnInit {
   isAnyData: boolean;
+  private recentTimeout: any;
   get medicationRequest(): MedicationRequest[] {
     return this._medicationRequest;
   }
@@ -16,9 +17,10 @@ export class PatientMedicationComponent implements OnInit {
   set medicationRequest(value: MedicationRequest[]) {
     this._medicationRequest = value;
     this.flatMedicationRequests = value.map(r => FlatMedicationRequest.fromResource(r));
-    setTimeout(() => {
+    clearTimeout(this.recentTimeout);
+    this.recentTimeout = setTimeout(() => {
       this.isAnyData = this.flatMedicationRequests.length > 0;
-    });
+    }, 50);
   }
 
   private _medicationRequest: MedicationRequest[];

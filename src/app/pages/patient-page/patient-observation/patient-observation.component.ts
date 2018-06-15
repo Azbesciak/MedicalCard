@@ -13,15 +13,16 @@ export class PatientObservationComponent implements OnInit {
   }
 
   isAnyData: boolean;
-
+  private recentTimeout: any;
   @Input('observations')
   set observations(value: Observation[]) {
     this._observations = value;
     this.flatObservations = value
       .map(r => FlatObservation.fromResource(r));
-    setTimeout(() => {
+      clearTimeout(this.recentTimeout);
+    this.recentTimeout = setTimeout(() => {
       this.isAnyData = this.flatObservations.length > 0;
-    });
+    }, 50);
   }
 
   private _observations: Observation[];

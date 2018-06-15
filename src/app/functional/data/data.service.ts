@@ -24,8 +24,12 @@ export class DataService {
       this.getPatientsKey(name, 0, count), force);
   }
 
-  getPatientsKey(name: string, pageNo: number, count: number) {
+  private getPatientsKey(name: string, pageNo: number, count: number) {
     return `Patients|${name}|${pageNo}|${count}`;
+  }
+
+  updatePatient(patient: Patient) {
+    return this.withClient(c => c.update(patient));
   }
 
   getPatientData(id: string, force: boolean): Promise<Patient> {
@@ -48,7 +52,9 @@ export class DataService {
       return f(this.client)
         .then(r => r.data)
         .then(r => {
-          this.cache.set(key, r);
+          if (key != null) {
+            this.cache.set(key, r);
+          }
           return r;
         });
     } else {

@@ -11,6 +11,7 @@ import {PatientObservationComponent} from './patient-page/patient-observation/pa
 import {MglTimelineModule} from 'angular-mgl-timeline';
 import { ObservationsChartComponent } from './patient-page/observations-chart/observations-chart.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { PatientEditComponent } from './patient-page/patient-edit/patient-edit.component';
 
 @NgModule({
   imports: [
@@ -27,9 +28,11 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     PatientDetailsComponent,
     PatientMedicationComponent,
     PatientObservationComponent,
-    ObservationsChartComponent
+    ObservationsChartComponent,
+    PatientEditComponent
   ],
-  exports: [PatientsListComponent]
+  exports: [PatientsListComponent],
+  entryComponents: [PatientEditComponent]
 })
 export class PagesModule {
 }

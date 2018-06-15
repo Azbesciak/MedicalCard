@@ -1,9 +1,9 @@
 <mat-card>
-  <mat-card-title>Patient {{patient?.id}}</mat-card-title>
+  <mat-card-title>Patient {{patientId}}</mat-card-title>
 </mat-card>
 <mat-card>
   <mat-card-title>Details</mat-card-title>
-  <app-patient-details *ngIf="patient" [patient]="patient"></app-patient-details>
+  <app-patient-details [patientId]="patientId"></app-patient-details>
 </mat-card>
 <mat-card>
   <mat-card-title>Observations</mat-card-title>

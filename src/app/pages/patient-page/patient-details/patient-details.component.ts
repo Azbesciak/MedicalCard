@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FlatPatient} from '../../models';
+import {MatDialog} from '@angular/material';
+import {PatientEditComponent, PatientEditComponentData} from '../patient-edit/patient-edit.component';
+import {DataService} from '../../../functional/data/data.service';
 
 @Component({
   selector: 'app-patient-details',
@@ -8,17 +11,33 @@ import {FlatPatient} from '../../models';
 })
 export class PatientDetailsComponent implements OnInit {
 
-  @Input('patient')
+  @Input('patientId')
+  patientId: string;
+
   patient: FlatPatient;
 
   languages: string;
 
-  constructor() { }
+  constructor(private dialog: MatDialog, private data: DataService) { }
 
   ngOnInit() {
-    this.languages = this.patient.communications
-      .map(com => com.language.coding.map(c => c.display).join(', '))
-      .join(', ');
+    this.getPatientData().then(() => {
+      this.languages = this.patient.communications
+        .map(com => com.language.coding.map(c => c.display).join(', '))
+        .join(', ');
+    });
+  }
+
+  getPatientData() {
+    return this.data.getPatientData(this.patientId, false)
+      .then(p => this.patient = FlatPatient.fromResource(p)); // shame on me.
+  }
+
+  showPatientEditDialog() {
+    this.dialog.open(PatientEditComponent, {
+      width: '500px',
+      data: new PatientEditComponentData(this.patient.raw, p => this.data.updatePatient(p))
+    });
   }
 
 }

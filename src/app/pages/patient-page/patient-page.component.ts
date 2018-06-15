@@ -14,7 +14,7 @@ import {getNavigation, getResources} from '../utility';
   styleUrls: ['./patient-page.component.scss']
 })
 export class PatientPageComponent implements OnInit {
-  patient: FlatPatient;
+  patientId: string;
   observations: Observation[] = [];
   medicationRequests: MedicationRequest[] = [];
 
@@ -23,14 +23,12 @@ export class PatientPageComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      this.getDataForPatient(id);
+      this.patientId = params.get('id');
+      this.getDataForPatient(this.patientId);
     });
   }
 
   getDataForPatient(patientId: string) {
-    this.data.getPatientData(patientId, false)
-      .then(p => this.patient = FlatPatient.fromResource(p)); // shame on me.
     this.data.getPatientMedicationRequests(patientId, 50, false)
       .then(async o => {
         let navigation = getNavigation(o);
