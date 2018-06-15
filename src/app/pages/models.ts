@@ -26,13 +26,14 @@ export class FlatPatient {
     public names: HumanName[],
     public telecoms: ContactPoint[],
     public addresses: Address[],
-    public communications: PatientCommunication[]) {
+    public communications: PatientCommunication[],
+    public raw: Patient) {
   }
 
   static fromResource(r: Patient): FlatPatient {
     const namePart = r.name.find(n => n.use === 'official');
     return new FlatPatient(namePart.given[0], namePart.family, r.id, r.gender, new Date(r.birthDate),
-      r.maritalStatus.text, r.name, r.telecom, r.address, r.communication);
+      r.maritalStatus.text, r.name, r.telecom, r.address, r.communication, r);
   }
 
   static getFields(): Field[] {
@@ -47,12 +48,13 @@ export class FlatPatient {
 
 export class FlatObservation {
   constructor(public id: string, public code: CodeableConcept, public components: ObservationWithDateComponent[], public issued: Date,
-              public effectiveDateTime: Date, public meta: Meta, public status: string) {
+              public effectiveDateTime: Date, public meta: Meta, public status: string, public raw: Observation) {
   }
 
   static fromResource(res: Observation): FlatObservation {
     const components = FlatObservation.getComponents(res);
-    return new FlatObservation(res.id, res.code, components, new Date(res.issued), new Date(res.effectiveDateTime), res.meta, res.status);
+    return new FlatObservation(res.id, res.code, components, new Date(res.issued),
+      new Date(res.effectiveDateTime), res.meta, res.status, res);
   }
 
   private static getComponents(res: Observation): ObservationWithDateComponent[] {
