@@ -10,18 +10,6 @@ import Meta = fhir.Meta;
 import CodeableConcept = fhir.CodeableConcept;
 import MedicationRequest = fhir.MedicationRequest;
 
-export interface Consumption {
-  id: number;
-  measure_time: Date;
-  value: number;
-  device_id: number;
-}
-
-export class Granulation {
-  constructor(public type: string, public modifier: (val: ChartValue) => ChartValue) {
-  }
-}
-
 export class Field {
   constructor(public visibleName: string, public fieldName: string) {
   }
