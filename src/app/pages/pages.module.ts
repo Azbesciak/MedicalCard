@@ -9,10 +9,12 @@ import {PatientDetailsComponent} from './patient-page/patient-details/patient-de
 import {PatientMedicationComponent} from './patient-page/patient-medication/patient-medication.component';
 import {PatientObservationComponent} from './patient-page/patient-observation/observations-timeline/patient-observation.component';
 import {MglTimelineModule} from 'angular-mgl-timeline';
-import { ObservationsChartComponent } from './patient-page/patient-observation/observations-chart/observations-chart.component';
+import {ObservationsChartComponent} from './patient-page/patient-observation/observations-chart/observations-chart.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
-import { PatientEditComponent } from './patient-page/patient-edit/patient-edit.component';
-import { ObservationFilterComponent } from './patient-page/patient-observation/observation-filter/observation-filter.component';
+import {NgxDnDModule} from '@swimlane/ngx-dnd';
+import {PatientEditComponent} from './patient-page/patient-details/patient-edit/patient-edit.component';
+import {ObservationFilterComponent} from './patient-page/patient-observation/observation-filter/observation-filter.component';
+import {PatientHistoryComponent} from './patient-page/patient-history/patient-history.component';
 
 @NgModule({
   imports: [
@@ -21,7 +23,8 @@ import { ObservationFilterComponent } from './patient-page/patient-observation/o
     FormsModule,
     FunctionalModule,
     MglTimelineModule,
-    NgxChartsModule
+    NgxChartsModule,
+    NgxDnDModule,
   ],
   declarations: [
     PatientsListComponent,
@@ -31,10 +34,11 @@ import { ObservationFilterComponent } from './patient-page/patient-observation/o
     PatientObservationComponent,
     ObservationsChartComponent,
     PatientEditComponent,
-    ObservationFilterComponent
+    ObservationFilterComponent,
+    PatientHistoryComponent
   ],
   exports: [PatientsListComponent],
-  entryComponents: [PatientEditComponent]
+  entryComponents: [PatientEditComponent, PatientHistoryComponent]
 })
 export class PagesModule {
 }

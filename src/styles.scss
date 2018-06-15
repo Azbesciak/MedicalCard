@@ -1,6 +1,7 @@
 @import "~@angular/material/prebuilt-themes/purple-green.css";
 @import '~@angular/material/theming';
 @import '~angular-mgl-timeline/theme';
+@import "~@swimlane/ngx-dnd/release/index.css";
 @include mat-core();
 html {
   font-family: Roboto, sans-serif;

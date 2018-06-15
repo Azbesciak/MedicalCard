@@ -24,7 +24,6 @@ export class ObservationsChartComponent implements OnInit {
   @Input('observations')
   set flatObservations(value: FlatObservation[]) {
     this.allValues.clear();
-    console.log(value)
     this._flatObservations = value;
     of(this._flatObservations).pipe(
       mergeMap(o => o),

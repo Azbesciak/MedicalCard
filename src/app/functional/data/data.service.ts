@@ -28,6 +28,10 @@ export class DataService {
     return `Patients|${name}|${pageNo}|${count}`;
   }
 
+  getPatientHistory(patientId: string) {
+    return this.withClient(c => c.history({type: 'Patient', id: patientId}));
+  }
+
   updatePatient(patient: Patient) {
     return this.put(`Patient/${patient.id}`, patient);
   }

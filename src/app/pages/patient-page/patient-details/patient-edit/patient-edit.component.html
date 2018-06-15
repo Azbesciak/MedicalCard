@@ -2,7 +2,7 @@
   <h2>Patient {{patient.id}}</h2>
   <app-section [sectionName]="'Name'">
     <div *ngFor="let c of patient.name" >
-      <app-key-value [key]="c.use"></app-key-value>
+      <div class="name-type">{{c.use}}</div>
       <div class="form-section">
         <mat-form-field class="full-width">
           <input matInput placeholder="Title" name="{{c.use}}-title" [(ngModel)]="c.prefix">

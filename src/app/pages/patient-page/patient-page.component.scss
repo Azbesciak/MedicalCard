@@ -1,4 +1,7 @@
 :host {
   display: grid;
   grid-row-gap: 20px;
+  .history-button {
+    float: right;
+  }
 }

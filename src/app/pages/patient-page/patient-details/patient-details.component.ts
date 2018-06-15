@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FlatPatient} from '../../models';
 import {MatDialog} from '@angular/material';
-import {PatientEditComponent, PatientEditComponentData} from '../patient-edit/patient-edit.component';
+import {PatientEditComponent, PatientEditComponentData} from './patient-edit/patient-edit.component';
 import {DataService} from '../../../functional/data/data.service';
 
 @Component({
@@ -33,8 +33,13 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   getPatientData(patient = null) {
-    return (patient == null ? this.data.getPatientData(this.patientId, true) : Promise.resolve(patient))
-      .then(p => this.patient = FlatPatient.fromResource(p));
+    return (patient == null
+      ? this.data.getPatientData(this.patientId, true)
+      : Promise.resolve(patient)
+    ).then(p => {
+      console.log(p);
+      return this.patient = FlatPatient.fromResource(p);
+    });
   }
 
   showPatientEditDialog() {

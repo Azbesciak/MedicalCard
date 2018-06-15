@@ -8,6 +8,8 @@ import Observation = fhir.Observation;
 import MedicationRequest = fhir.MedicationRequest;
 import {getNavigation, getResources} from '../utility';
 import {BehaviorSubject} from 'rxjs';
+import {MatDialog} from '@angular/material';
+import {PatientHistoryComponent, PatientHistoryData} from './patient-history/patient-history.component';
 
 @Component({
   selector: 'app-patient-page',
@@ -19,7 +21,7 @@ export class PatientPageComponent implements OnInit {
   observationsBus = new BehaviorSubject<FlatObservation[]>([]);
   medicationRequests: MedicationRequest[] = [];
 
-  constructor(private data: DataService, private route: ActivatedRoute) {
+  constructor(private data: DataService, private route: ActivatedRoute, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -42,6 +44,12 @@ export class PatientPageComponent implements OnInit {
           this.medicationRequests = this.medicationRequests.slice();
         }
       });
+  }
 
+  showPatientHistoryDialog() {
+    this.dialog.open(PatientHistoryComponent, {
+      width: '700px',
+      data: new PatientHistoryData(this.patientId)
+    });
   }
 }
