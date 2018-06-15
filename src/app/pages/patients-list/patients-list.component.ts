@@ -24,16 +24,16 @@ export class PatientsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPatients('');
+    this.getPatients('', false);
   }
 
   getPatientsWithName() {
-    this.getPatients(this.searchedName);
+    this.getPatients(this.searchedName, false);
   }
 
-  getPatients(name: string) {
+  getPatients(name: string, force) {
     console.log('request sent');
-    this.data.getAllPatients(name, 20).then(r => {
+    this.data.getAllPatients(name, 20, force).then(r => {
       this.patients = (r.entry || []).map(p => FlatPatient.fromResource(p.resource as Patient));
       console.log(r);
       const relations = r.link;

@@ -26,15 +26,13 @@ export class PatientPageComponent implements OnInit {
   }
 
   getDataForPatient(patientId: string) {
-    this.data.getPatientData(patientId)
+    this.data.getPatientData(patientId, false)
       .then(p => this.patient = FlatPatient.fromResource(p));
-    this.data.getPatientMedicationRequests(patientId)
+    this.data.getPatientMedicationRequests(patientId, 50, false)
       .then(p => this.medicationRequests = p);
-    this.data.getPatientObservations(patientId)
+    this.data.getPatientObservations(patientId, 50, false)
       .then(o => this.observations = o);
   }
-
-
 }
 
 class PatientEveryting {
