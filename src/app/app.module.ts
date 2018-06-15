@@ -6,7 +6,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {DataService} from './functional/data/data.service';
 import {FormsModule} from '@angular/forms';
 import {FunctionalModule} from './functional/functional.module';
-import {MainModule} from './main/main.module';
 import {PagesModule} from './pages/pages.module';
 import {RoutingModule} from './functional/routing/routing.module';
 
@@ -19,7 +18,6 @@ import {RoutingModule} from './functional/routing/routing.module';
     HttpClientModule,
     FormsModule,
     FunctionalModule,
-    MainModule,
     RoutingModule,
     PagesModule
   ],

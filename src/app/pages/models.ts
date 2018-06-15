@@ -1,4 +1,4 @@
-///<reference path="../../../../node_modules/@types/fhir/index.d.ts"/>
+///<reference path="../../../node_modules/@types/fhir/index.d.ts"/>
 import Address = fhir.Address;
 import ContactPoint = fhir.ContactPoint;
 import HumanName = fhir.HumanName;
@@ -75,7 +75,7 @@ export class FlatObservation {
     if (res.component) {
       components.push(...res.component);
     }
-    components.forEach(c => c.date = new Date(res.issued))
+    components.forEach(c => c.date = new Date(res.issued));
     return components;
   }
 }

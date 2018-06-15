@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FlatObservation} from '../../../main/models/models';
+import {FlatObservation} from '../../models';
 import Bundle = fhir.Bundle;
 import Observation = fhir.Observation;
 

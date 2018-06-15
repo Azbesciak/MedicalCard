@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import Bundle = fhir.Bundle;
 import MedicationRequest = fhir.MedicationRequest;
-import {FlatMedicationRequest} from '../../../main/models/models';
+import {FlatMedicationRequest} from '../../models';
 
 @Component({
   selector: 'app-patient-medication',

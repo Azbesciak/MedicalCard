@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../functional/data/data.service';
 import {ActivatedRoute} from '@angular/router';
-import {FlatPatient} from '../../main/models/models';
+import {FlatPatient} from '../models';
 import Bundle = fhir.Bundle;
 
 @Component({

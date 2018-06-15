@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Field} from '../../../main/models/models';
+import {Field} from '../../../pages/models';
 
 @Component({
   selector: 'app-table',

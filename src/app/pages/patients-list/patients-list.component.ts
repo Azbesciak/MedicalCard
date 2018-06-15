@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../functional/data/data.service';
 import {Router} from '@angular/router';
 import {RoutingConstants} from '../../functional/routing/RoutingConstants';
-import {FlatPatient} from '../../main/models/models';
+import {FlatPatient} from '../models';
 import BundleLink = fhir.BundleLink;
 import Patient = fhir.Patient;
 

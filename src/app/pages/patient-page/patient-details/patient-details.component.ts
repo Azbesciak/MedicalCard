@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FlatPatient} from '../../../main/models/models';
+import {FlatPatient} from '../../models';
 
 @Component({
   selector: 'app-patient-details',
