@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FlatObservation} from '../../models';
-import Bundle = fhir.Bundle;
 import Observation = fhir.Observation;
 
 @Component({
@@ -9,9 +8,23 @@ import Observation = fhir.Observation;
   styleUrls: ['./patient-observation.component.scss']
 })
 export class PatientObservationComponent implements OnInit {
+  get observations(): Observation[] {
+    return this._observations;
+  }
+
+  isAnyData: boolean;
 
   @Input('observations')
-  observations: Bundle;
+  set observations(value: Observation[]) {
+    this._observations = value;
+    this.flatObservations = value
+      .map(r => FlatObservation.fromResource(r));
+    setTimeout(() => {
+      this.isAnyData = this.flatObservations.length > 0;
+    });
+  }
+
+  private _observations: Observation[];
 
   flatObservations: FlatObservation[];
 
@@ -19,10 +32,7 @@ export class PatientObservationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.observations);
-    this.flatObservations = (this.observations.entry || [])
-      .map(o => o.resource)
-      .map(r => FlatObservation.fromResource(r as Observation));
+
   }
 
 }

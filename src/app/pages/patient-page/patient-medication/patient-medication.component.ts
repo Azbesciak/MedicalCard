@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import Bundle = fhir.Bundle;
 import MedicationRequest = fhir.MedicationRequest;
 import {FlatMedicationRequest} from '../../models';
 
@@ -9,18 +8,26 @@ import {FlatMedicationRequest} from '../../models';
   styleUrls: ['./patient-medication.component.scss']
 })
 export class PatientMedicationComponent implements OnInit {
-
+  isAnyData: boolean;
+  get medicationRequest(): MedicationRequest[] {
+    return this._medicationRequest;
+  }
   @Input('medicationRequest')
-  medicationRequest: Bundle;
+  set medicationRequest(value: MedicationRequest[]) {
+    this._medicationRequest = value;
+    this.flatMedicationRequests = value.map(r => FlatMedicationRequest.fromResource(r));
+    setTimeout(() => {
+      this.isAnyData = this.flatMedicationRequests.length > 0;
+    });
+  }
+
+  private _medicationRequest: MedicationRequest[];
 
   flatMedicationRequests: FlatMedicationRequest[];
 
   constructor() { }
 
   ngOnInit() {
-    this.flatMedicationRequests = (this.medicationRequest.entry || [])
-      .map(r => r.resource as MedicationRequest)
-      .map(r => FlatMedicationRequest.fromResource(r));
   }
 
 }

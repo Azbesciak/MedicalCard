@@ -5,6 +5,7 @@ import {RoutingConstants} from '../../functional/routing/RoutingConstants';
 import {FlatPatient} from '../models';
 import BundleLink = fhir.BundleLink;
 import Patient = fhir.Patient;
+import {getNavigation, getResources} from '../utility';
 
 @Component({
   selector: 'app-patients-list',
@@ -14,8 +15,8 @@ import Patient = fhir.Patient;
 export class PatientsListComponent implements OnInit {
   displayedColumns = ['firstName', 'lastName', 'id', 'gender'];
   patients: any[];
-  nextPage: BundleLink;
-  previousPage: BundleLink;
+  nextPage: string;
+  previousPage: string;
   total: number;
   fields = FlatPatient.getFields();
   searchedName: string;
@@ -49,11 +50,11 @@ export class PatientsListComponent implements OnInit {
   }
 
   setPatients(r) {
-    this.patients = (r.entry || []).map(p => FlatPatient.fromResource(p.resource as Patient));
+    this.patients = getResources(r).map(p => FlatPatient.fromResource(p as Patient));
     console.log(r);
-    const relations = r.link;
-    this.nextPage = relations.find(rel => rel.relation === 'next');
-    this.previousPage = relations.find(rel => rel.relation === 'previous');
+    const navigation = getNavigation(r);
+    this.nextPage = navigation.next;
+    this.previousPage = navigation.previous;
     this.total = r.total;
   }
 
@@ -62,13 +63,13 @@ export class PatientsListComponent implements OnInit {
   }
 
   getNextPage() {
-    this.data.get(this.nextPage.url)
+    this.data.get(this.nextPage)
       .then(r => this.setPatients(r))
       .then(() => this.currentPageNo++);
   }
 
   getPreviousPage() {
-    this.data.get(this.previousPage.url)
+    this.data.get(this.previousPage)
       .then(r => this.setPatients(r))
       .then(() => this.currentPageNo--);
   }

@@ -46,12 +46,13 @@ export class DataService {
   withClient(f: (client: FhirClient) => Promise<any>, key: string = null, force: boolean = true) {
     if (force || key == null || !this.cache.has(key)) {
       return f(this.client)
+        .then(r => r.data)
         .then(r => {
           this.cache.set(key, r);
-          return r.data;
+          return r;
         });
     } else {
-      return Promise.resolve(this.getFromCache(key).data);
+      return Promise.resolve(this.getFromCache(key));
     }
   }
 
@@ -63,7 +64,7 @@ export class DataService {
     return cache;
   }
 
-  get(url) {
+  get(url): Promise<any> {
     return this.http.get(url).toPromise();
   }
   post(url) {

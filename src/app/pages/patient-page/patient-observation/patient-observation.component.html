@@ -1,4 +1,4 @@
-<div *ngIf="flatObservations?.length > 0; else notFound" class="wrapper">
+<div *ngIf="isAnyData; else notFound" class="wrapper">
   <mgl-timeline [toggle]="false" [alternate]="true">
     <mgl-timeline-entry *ngFor="let entry of flatObservations">
       <mgl-timeline-entry-header>
