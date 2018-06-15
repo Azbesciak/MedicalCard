@@ -4,6 +4,12 @@
     display: grid;
     grid-template-columns: minmax( 200px, 300px) auto auto auto;
     grid-column-gap: 5px;
+    .page-state {
+      grid-row: 2;
+      grid-column-start: 1;
+      grid-column-end: 5;
+      justify-self: center;
+    }
   }
 }
 

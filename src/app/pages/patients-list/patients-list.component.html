@@ -5,7 +5,8 @@
   <button mat-button (click)="getPatientsWithName()">
     <mat-icon>search</mat-icon>Search
   </button>
-  <button mat-button [disabled]="!previousPage">previous</button>
-  <button mat-button [disabled]="!nextPage">next</button>
+  <button mat-button [disabled]="!previousPage" (click)="getPreviousPage()">previous</button>
+  <button mat-button [disabled]="!nextPage" (click)="getNextPage()">next</button>
+  <div class="page-state"> Page {{currentPageNo + 1}} ({{count * currentPageNo}} - {{count * currentPageNo + patients?.length}} / {{total}}) </div>
 </mat-card>
 <app-table [data]="patients" [fields]="fields" [onRowClick]="onRowClick.bind(this)"></app-table>

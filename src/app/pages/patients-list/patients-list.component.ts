@@ -19,30 +19,57 @@ export class PatientsListComponent implements OnInit {
   total: number;
   fields = FlatPatient.getFields();
   searchedName: string;
+  count = 20;
+  currentPageNo = 0;
+  private lastSearchedName;
 
   constructor(private data: DataService, private router: Router) {
   }
 
   ngOnInit() {
-    this.getPatients('', false);
+    this.getPatients( false);
   }
 
   getPatientsWithName() {
-    this.getPatients(this.searchedName, false);
+    this.getPatients( false);
   }
 
-  getPatients(name: string, force) {
+  getPatients(force) {
     console.log('request sent');
-    this.data.getAllPatients(name, 20, force).then(r => {
-      this.patients = (r.entry || []).map(p => FlatPatient.fromResource(p.resource as Patient));
-      console.log(r);
-      const relations = r.link;
-      this.nextPage = relations.find(rel => rel.relation === 'next');
-      this.previousPage = relations.find(rel => rel.relation === 'previous');
-    });
+    this.data.getAllPatients(this.getSearchName(), this.count, force)
+      .then(r => this.setPatients(r))
+      .then(() => {
+        this.lastSearchedName = this.getSearchName();
+        this.currentPageNo = 0;
+      });
+  }
+
+  private getSearchName() {
+    return this.searchedName || '';
+  }
+
+  setPatients(r) {
+    this.patients = (r.entry || []).map(p => FlatPatient.fromResource(p.resource as Patient));
+    console.log(r);
+    const relations = r.link;
+    this.nextPage = relations.find(rel => rel.relation === 'next');
+    this.previousPage = relations.find(rel => rel.relation === 'previous');
+    this.total = r.total;
   }
 
   onRowClick(row: FlatPatient) {
     this.router.navigate([RoutingConstants.PATIENTS_PAGE, row.id]);
+  }
+
+  getNextPage() {
+    this.data.get(this.nextPage.url)
+      .then(r => this.setPatients(r))
+      .then(() => this.currentPageNo++);
+  }
+
+  getPreviousPage() {
+    this.data.get(this.previousPage.url)
+      .then(r => this.setPatients(r))
+      .then(() => this.currentPageNo--);
   }
 }

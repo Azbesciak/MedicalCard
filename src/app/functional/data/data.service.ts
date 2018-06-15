@@ -21,12 +21,16 @@ export class DataService {
 
   getAllPatients(name: string, count, force: boolean): Promise<Bundle> {
     return this.withClient(c => c.search({type: 'Patient', query: {name: name, _count: count}}),
-      `Patients|${name}`, force);
+      this.getPatientsKey(name, 0, count), force);
+  }
+
+  getPatientsKey(name: string, pageNo: number, count: number) {
+    return `Patients|${name}|${pageNo}|${count}`;
   }
 
   getPatientData(id: string, force: boolean): Promise<Patient> {
       return this.withClient(c => c.read({type: 'Patient', id: id}),
-        `Patient|${id}`);
+        `Patient|${id}`, force);
   }
 
   getPatientMedicationRequests(patientId: string, count: number, force: boolean): Promise<Bundle> {
@@ -47,16 +51,20 @@ export class DataService {
           return r.data;
         });
     } else {
-      return Promise.resolve(this.cache.get(key).data);
+      return Promise.resolve(this.getFromCache(key).data);
     }
   }
 
-  getConsumptionsBetween(devId: string, dateFrom: number, dateTo: number) {
-    return this.get(`consumptions/${devId}/${dateFrom}/${dateTo}`);
+  getFromCache(key: string): any {
+    const cache = this.cache.get(key);
+    if (typeof cache.data === 'string') {
+      cache.data = JSON.parse(cache.data);
+    }
+    return cache;
   }
 
   get(url) {
-    return this.http.get(toApi(url)).toPromise();
+    return this.http.get(url).toPromise();
   }
   post(url) {
     return this.http.post(toApi(url), {}).toPromise();
