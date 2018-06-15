@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ChartSeries, FlatObservation, ObservationWithDateComponent} from '../../models';
+import {ChartSeries, FlatObservation, ObservationWithDateComponent} from '../../../models';
 import {of} from 'rxjs';
 import {mergeMap, groupBy, reduce, map} from 'rxjs/operators';
 import {MatSelectChange} from '@angular/material';
@@ -23,6 +23,8 @@ export class ObservationsChartComponent implements OnInit {
 
   @Input('observations')
   set flatObservations(value: FlatObservation[]) {
+    this.allValues.clear();
+    console.log(value)
     this._flatObservations = value;
     of(this._flatObservations).pipe(
       mergeMap(o => o),
@@ -38,8 +40,12 @@ export class ObservationsChartComponent implements OnInit {
       () => {},
       () => {
         this.observationTypes = Array.from(this.allValues.keys());
-        if (this.currentObservation == null && this.observationTypes.length > 0) {
-          this.setObservationType(this.observationTypes[0]);
+        const areAnyObservations = this.observationTypes.length > 0;
+        if ((this.currentObservation == null || !this.allValues.has(this.currentObservation)) && areAnyObservations) {
+          this.currentObservation = this.observationTypes[0];
+        }
+        if (areAnyObservations) {
+          this.setObservationType(this.currentObservation);
         }
       }
     );

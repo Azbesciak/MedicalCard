@@ -6,8 +6,10 @@
   <app-patient-details [patientId]="patientId"></app-patient-details>
 </mat-card>
 <mat-card>
-  <mat-card-title>Observations</mat-card-title>
-  <app-patient-observation [observations]="observations"></app-patient-observation>
+  <mat-card-title>Observations
+    <app-observation-filter [patientId]="patientId" [observationsBus]="observationsBus"></app-observation-filter>
+  </mat-card-title>
+  <app-patient-observation [observationsBus]="observationsBus"></app-patient-observation>
 </mat-card>
 <mat-card>
   <mat-card-title>Medication requests</mat-card-title>

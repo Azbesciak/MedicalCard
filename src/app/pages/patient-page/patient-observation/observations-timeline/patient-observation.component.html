@@ -1,6 +1,6 @@
-<div *ngIf="isAnyData; else notFound" class="wrapper">
+<div *ngIf="observations?.length > 0; else notFound" class="wrapper">
   <mgl-timeline [toggle]="false" [alternate]="true">
-    <mgl-timeline-entry *ngFor="let entry of flatObservations">
+    <mgl-timeline-entry *ngFor="let entry of observations">
       <mgl-timeline-entry-header>
         <div>{{entry.code.text || entry.code.coding[0].display}}</div>
       </mgl-timeline-entry-header>
@@ -17,7 +17,7 @@
     </mgl-timeline-entry>
   </mgl-timeline>
   <div class="chart">
-    <app-observations-chart [observations]="flatObservations"></app-observations-chart>
+    <app-observations-chart [observations]="observations"></app-observations-chart>
   </div>
 </div>
 <ng-template #notFound>

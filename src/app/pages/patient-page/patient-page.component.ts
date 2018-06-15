@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../functional/data/data.service';
 import {ActivatedRoute} from '@angular/router';
-import {FlatPatient} from '../models';
+import {FlatObservation, FlatPatient} from '../models';
 import Bundle = fhir.Bundle;
 import BundleEntry = fhir.BundleEntry;
 import Observation = fhir.Observation;
 import MedicationRequest = fhir.MedicationRequest;
 import {getNavigation, getResources} from '../utility';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-patient-page',
@@ -15,7 +16,7 @@ import {getNavigation, getResources} from '../utility';
 })
 export class PatientPageComponent implements OnInit {
   patientId: string;
-  observations: Observation[] = [];
+  observationsBus = new BehaviorSubject<FlatObservation[]>([]);
   medicationRequests: MedicationRequest[] = [];
 
   constructor(private data: DataService, private route: ActivatedRoute) {
@@ -41,17 +42,6 @@ export class PatientPageComponent implements OnInit {
           this.medicationRequests = this.medicationRequests.slice();
         }
       });
-    this.data.getPatientObservations(patientId, 50, false)
-      .then(async o => {
-        let navigation = getNavigation(o);
-        this.observations.push(...getResources(o));
-        this.observations = this.observations.slice();
-        while (navigation.hasNext()) {
-          const res = await this.data.get(navigation.next);
-          navigation = getNavigation(res);
-          this.observations.push(...getResources(res));
-          this.observations = this.observations.slice();
-        }
-      });
+
   }
 }
