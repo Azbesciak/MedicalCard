@@ -1,0 +1,13 @@
+:host {
+  .form-section {
+    display: grid;
+    grid-template-columns: 150px 150px 150px ;
+    grid-gap: 10px;
+    .header {
+      grid-column-start: 0;
+      grid-column-end: 5;
+    }
+
+  }
+
+}

@@ -1,3 +1,36 @@
-<p>
-  patient-edit works!
-</p>
+<form class="example-form" (submit)="onAccept()" novalidate #editForm>
+  <h2>Patient {{patient.id}}</h2>
+  <app-section [sectionName]="'Name'">
+    <div *ngFor="let c of patient.name" >
+      <app-key-value [key]="c.use"></app-key-value>
+      <div class="form-section">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Title" name="{{c.use}}-title" [(ngModel)]="c.prefix">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="First Name" type="firstname" name="{{c.use}}-firstName" [(ngModel)]="c.given">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Last Name" type="lastname" name="{{c.use}}-lastName" [(ngModel)]="c.family">
+        </mat-form-field>
+      </div>
+    </div>
+  </app-section>
+  <app-section [sectionName]="'Informations'">
+    <div class="form-section">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Gender" name="gender" [(ngModel)]="patient.gender">
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput [matDatepicker]="picker" placeholder="Birth Date" name="date" [(ngModel)]="patient.birthDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Martial Status" type="marital status" name="maritalstatus" [(ngModel)]="patient.maritalStatus.text">
+      </mat-form-field>
+    </div>
+
+  </app-section>
+  <button mat-raised-button color="primary">Submit</button>
+</form>

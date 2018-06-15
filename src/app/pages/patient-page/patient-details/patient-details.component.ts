@@ -21,22 +21,28 @@ export class PatientDetailsComponent implements OnInit {
   constructor(private dialog: MatDialog, private data: DataService) { }
 
   ngOnInit() {
-    this.getPatientData().then(() => {
+    this.updatePatient();
+  }
+
+  updatePatient(patient = null) {
+    this.getPatientData(patient).then(() => {
       this.languages = this.patient.communications
         .map(com => com.language.coding.map(c => c.display).join(', '))
         .join(', ');
     });
   }
 
-  getPatientData() {
-    return this.data.getPatientData(this.patientId, false)
-      .then(p => this.patient = FlatPatient.fromResource(p)); // shame on me.
+  getPatientData(patient = null) {
+    return (patient == null ? this.data.getPatientData(this.patientId, true) : Promise.resolve(patient))
+      .then(p => this.patient = FlatPatient.fromResource(p));
   }
 
   showPatientEditDialog() {
     this.dialog.open(PatientEditComponent, {
-      width: '500px',
-      data: new PatientEditComponentData(this.patient.raw, p => this.data.updatePatient(p))
+      width: '700px',
+      data: new PatientEditComponentData(this.patient.raw, p => this.data
+        .updatePatient(p)
+        .then(() => this.updatePatient(p)))
     });
   }
 

@@ -29,7 +29,7 @@ export class DataService {
   }
 
   updatePatient(patient: Patient) {
-    return this.withClient(c => c.update(patient));
+    return this.put(`Patient/${patient.id}`, patient);
   }
 
   getPatientData(id: string, force: boolean): Promise<Patient> {
@@ -73,8 +73,8 @@ export class DataService {
   get(url): Promise<any> {
     return this.http.get(url).toPromise();
   }
-  post(url) {
-    return this.http.post(toApi(url), {}).toPromise();
+  put(url, body) {
+    return this.http.put(toApi(url), body).toPromise();
   }
 }
 
