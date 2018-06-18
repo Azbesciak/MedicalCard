@@ -1,7 +1,13 @@
 :host {
   display: grid;
   grid-row-gap: 20px;
-  .history-button {
-    float: right;
+  .patient-info {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    .history-button {
+      grid-column: 2;
+      justify-self: right;
+    }
   }
 }

@@ -19,6 +19,9 @@ export class PatientHistoryComponent implements OnInit {
   patientId = this.data.patientId;
   patients: FlatPatient[];
   newest: FlatPatient;
+  targetItemsA=[];
+  targetItemsB=[];
+
   ngOnInit() {
     this.dataService.getPatientHistory(this.patientId).then(h => {
       this.patients = getResources(h).map(p => FlatPatient.fromResource(p));
@@ -27,6 +30,13 @@ export class PatientHistoryComponent implements OnInit {
     });
   }
 
+  onDropMade($event: any, container: any[]) {
+    if (container.length > 0) {
+      container.splice(0, container.length);
+      container.push($event.value);
+    }
+    console.log($event, container);
+  }
 }
 
 export class PatientHistoryData {

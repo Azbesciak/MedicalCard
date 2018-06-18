@@ -1,0 +1,16 @@
+:host {
+  display: grid;
+  grid-template-columns: 215px 215px 215px;
+  grid-column-gap: 20px;
+  ::ng-deep mat-list-item {
+    .mat-list-item-content {
+      display: block !important;
+      padding: 5px !important;
+    }
+    height: max-content !important;
+  }
+
+  .elevated-list-item {
+
+  }
+}
