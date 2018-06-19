@@ -1,35 +1,43 @@
-<!--<mat-list ngxDroppable>-->
-<!--<mat-list-item *ngFor="let p of patients" class="ngx-dnd-item elevated-list-item" ngxDraggable="['left', 'right']" >-->
-<!--<app-key-value key="Version" [value]="p.raw.meta.versionId"></app-key-value>-->
-<!--<app-key-value key="Date" value="{{p.raw.meta.lastUpdated | date: 'medium'}}"></app-key-value>-->
-<!--</mat-list-item>-->
-<!--</mat-list>-->
-<ngx-dnd-container
-  [model]="patients"
-  [copy]="true"
-  [dropZones]="['left','right']">
-  <ng-template let-model="model">
-    <app-key-value key="Version" [value]="model.raw.meta.versionId"></app-key-value>
-    <app-key-value key="Date" value="{{model.raw.meta.lastUpdated | date: 'medium'}}"></app-key-value>
-  </ng-template>
-</ngx-dnd-container>
-<ngx-dnd-container
-  [model]="targetItemsA"
-  [removeOnSpill]="true"
-  dropZone="left"
-  (drop)="onDropMade($event, targetItemsA)">
-  <ng-template let-model="model">
-    <app-key-value key="Version" [value]="model.raw.meta.versionId"></app-key-value>
-    <app-key-value key="Date" value="{{model.raw.meta.lastUpdated | date: 'medium'}}"></app-key-value>
-  </ng-template>
-</ngx-dnd-container>
-<ngx-dnd-container
-  [model]="targetItemsB"
-  dropZone="right"
-  [removeOnSpill]="true"
-  (drop)="onDropMade($event, targetItemsB)">
-  <ng-template let-model="model">
-    <app-key-value key="Version" [value]="model.raw.meta.versionId"></app-key-value>
-    <app-key-value key="Date" value="{{model.raw.meta.lastUpdated | date: 'medium'}}"></app-key-value>
-  </ng-template>
-</ngx-dnd-container>
+<h2>Patient history</h2>
+<div class="history">
+  <ngx-dnd-container
+    [model]="patients"
+    [copy]="true"
+    [dropZones]="['left','right']">
+    <ng-template let-model="model">
+      <app-key-value key="Version" [value]="model.raw.meta.versionId"></app-key-value>
+      <app-key-value key="Date" value="{{model.raw.meta.lastUpdated | date: 'medium'}}"></app-key-value>
+    </ng-template>
+  </ngx-dnd-container>
+</div>
+<div class="left-compare">
+  <ngx-dnd-container
+    [model]="targetItemsA"
+    [removeOnSpill]="true"
+    dropZone="left"
+    (drop)="onDropMade($event, targetItemsA)">
+    <ng-template let-model="model">
+      <app-key-value key="Version" [value]="model.raw.meta.versionId"></app-key-value>
+      <app-key-value key="Date" value="{{model.raw.meta.lastUpdated | date: 'medium'}}"></app-key-value>
+    </ng-template>
+  </ngx-dnd-container>
+</div>
+<div class="right-compare">
+  <ngx-dnd-container
+    [model]="targetItemsB"
+    dropZone="right"
+    [removeOnSpill]="true"
+    (drop)="onDropMade($event, targetItemsB)">
+    <ng-template let-model="model">
+      <app-key-value key="Version" [value]="model.raw.meta.versionId"></app-key-value>
+      <app-key-value key="Date" value="{{model.raw.meta.lastUpdated | date: 'medium'}}"></app-key-value>
+    </ng-template>
+  </ngx-dnd-container>
+</div>
+<div class="difs">
+  <div *ngFor="let dif of flatDif" class="changelog">
+    <span class="change-type" [ngClass]="dif.type">{{dif.type}}</span>
+    <span>{{dif.key}}</span>
+    <span>{{dif.label}}</span>
+  </div>
+</div>

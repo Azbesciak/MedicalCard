@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {FlatObservation} from '../../../models';
-import {getNavigation, getResources} from '../../../utility';
+import {getAll} from '../../../utility';
 import {DataService} from '../../../../functional/data/data.service';
-import Bundle = fhir.Bundle;
 
 @Component({
   selector: 'app-observation-filter',
@@ -27,23 +26,16 @@ export class ObservationFilterComponent implements OnInit {
   firstObservationDate: Date;
   lastObservationDate: Date;
   observations: FlatObservation[] = [];
-  constructor(private data: DataService) { }
 
-  private assignNewObservations(o: Bundle) {
-    const observations = getResources(o).map(r => FlatObservation.fromResource(r));
-    this.observations.push(...observations);
+  constructor(private data: DataService) {
   }
 
   ngOnInit() {
+    const subject = new Subject<any[]>();
+    subject.subscribe(o => this.observations = o);
     this.data.getPatientObservations(this.patientId, 50, false)
-      .then(async o => {
-        let navigation = getNavigation(o);
-        this.assignNewObservations(o);
-        while (navigation.hasNext()) {
-          const res = await this.data.get(navigation.next);
-          navigation = getNavigation(res);
-          this.assignNewObservations(o);
-        }
+      .then(o => getAll(o, subject, this.data, FlatObservation.fromResource))
+      .then(() => {
         this.observations.sort((s1, s2) => s1.issued.getTime() - s2.issued.getTime());
         this.setDates(this.observations);
         this.observationsBus.next(this.observations);

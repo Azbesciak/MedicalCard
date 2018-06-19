@@ -1,7 +1,58 @@
 :host {
   display: grid;
-  grid-template-columns: 215px 215px 215px;
+  grid-template-columns: 225px 215px 215px;
+  grid-template-rows: 50px 450px;
   grid-column-gap: 20px;
+  .history {
+    grid-row: 2;
+    overflow-y: overlay;
+    ::ng-deep .ngx-dnd-container {
+      width: 205px;
+    }
+  }
+  .left-compare {
+    grid-column: 2;
+  }
+  .right-compare {
+    grid-column: 3;
+  }
+  .difs {
+    grid-row: 2;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    height: 450px;
+    overflow: overlay;
+  }
+  .changelog {
+    display: grid;
+    grid-template-columns: 50px 100px max-content;
+    grid-column-gap: 10px;
+    grid-row-gap: 3px;
+    .change-type {
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+    .updated {
+      color: #FFC107;
+    }
+    .created {
+      color: #8BC34A;
+    }
+    .deleted {
+      color: #F44336;
+    }
+  }
+  .right-compare, .left-compare {
+    -webkit-box-shadow: inset 0 0 34px -10px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 0 0 34px -10px rgba(0,0,0,0.75);
+    box-shadow: inset 0 0 34px -10px rgba(0,0,0,0.75);
+    max-height: 40px;
+    padding: 0;
+    border-radius: 2px;
+    ::ng-deep ngx-dnd-item {
+      margin: 0 !important;
+    }
+  }
   ::ng-deep mat-list-item {
     .mat-list-item-content {
       display: block !important;

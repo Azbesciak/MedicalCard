@@ -31,9 +31,13 @@ export class FlatPatient {
   }
 
   static fromResource(r: Patient): FlatPatient {
-    const namePart = r.name.find(n => n.use === 'official');
-    return new FlatPatient(namePart.given[0], namePart.family, r.id, r.gender, new Date(r.birthDate),
-      r.maritalStatus.text, r.name, r.telecom, r.address, r.communication, r);
+    const namePart = (r.name || []).find(n => n.use === 'official');
+    return new FlatPatient(
+      namePart ? namePart.given[0] : undefined,
+      namePart ? namePart.family : undefined,
+      r.id, r.gender,
+      r.birthDate ? new Date(r.birthDate) : undefined,
+      r.maritalStatus ? r.maritalStatus.text : undefined, r.name, r.telecom, r.address, r.communication, r);
   }
 
   static getFields(): Field[] {

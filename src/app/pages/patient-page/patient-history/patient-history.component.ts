@@ -1,8 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DataService} from '../../../functional/data/data.service';
-import {getResources} from '../../utility';
+import {getAll, getResources} from '../../utility';
 import {FlatPatient} from '../../models';
+import {Comparer} from './comparer';
+import {FieldFilter} from './field-filter';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-patient-history',
@@ -16,18 +19,20 @@ export class PatientHistoryComponent implements OnInit {
               private dataService: DataService) {
   }
 
+  comparer = new Comparer();
+  filter = new FieldFilter(['meta.*']);
   patientId = this.data.patientId;
   patients: FlatPatient[];
-  newest: FlatPatient;
-  targetItemsA=[];
-  targetItemsB=[];
+  targetItemsA: FlatPatient[] = [];
+  targetItemsB: FlatPatient[] = [];
+  flatDif: FlatDif[];
 
   ngOnInit() {
-    this.dataService.getPatientHistory(this.patientId).then(h => {
-      this.patients = getResources(h).map(p => FlatPatient.fromResource(p));
-      console.log(this.patients);
-      this.newest = this.patients[0];
-    });
+    const subject = new Subject<any[]>();
+    let counter = 0;
+    subject.subscribe(p => this.patients = p);
+    this.dataService.getPatientHistory(this.patientId)
+      .then(h => getAll(h, subject, this.dataService, FlatPatient.fromResource, () => counter-- > 0));
   }
 
   onDropMade($event: any, container: any[]) {
@@ -35,11 +40,33 @@ export class PatientHistoryComponent implements OnInit {
       container.splice(0, container.length);
       container.push($event.value);
     }
-    console.log($event, container);
+    if (this.targetItemsA.length > 0 && this.targetItemsB.length > 0) {
+      let dif = this.comparer.compare(this.targetItemsA[0].raw, this.targetItemsB[0].raw);
+      dif = this.filter.filter(dif);
+      this.flatDif = Object.entries(dif).map((e: any) => new FlatDif(e[0], e[1].type, e[1].data, e[1].before, e[1].after));
+    } else {
+      this.flatDif = [];
+    }
   }
 }
 
 export class PatientHistoryData {
   constructor(public patientId: string) {
+  }
+}
+
+export class FlatDif {
+  label: string;
+
+  constructor(public key: string, public type: string, public value: any, public before: any, public after: any) {
+    if (type === Comparer.VALUE_UPDATED) {
+      this.label = `Left: ${before}, Right: ${after}`;
+    } else {
+      this.label = value;
+    }
+    this.key = this.key
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase())
+      .replace(/\./g, ' ');
   }
 }

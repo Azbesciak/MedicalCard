@@ -1,5 +1,7 @@
 import Bundle = fhir.Bundle;
 import BundleLink = fhir.BundleLink;
+import {Subject} from 'rxjs';
+import {DataService} from '../functional/data/data.service';
 
 export function getNavigation(res: Bundle) {
   const relations = res.link;
@@ -22,4 +24,22 @@ export class Links {
   hasNext() {
     return this.next != null;
   }
+}
+
+export async function getAll(o: Bundle, subject: Subject<any[]>, data: DataService,
+                             modifier: (a: any) => any = a => a,
+                             shouldFetch: (recent: any[]) => boolean = x => true) {
+  const result = [];
+  let navigation = getNavigation(o);
+  let temp = getResources(o).map(modifier);
+  result.push(...temp);
+  subject.next(result.slice());
+  while (navigation.hasNext() && shouldFetch(temp) ) {
+    const bundle = await data.get(navigation.next);
+    navigation = getNavigation(bundle);
+    temp = getResources(o).map(modifier);
+    result.push(...temp);
+    subject.next(result.slice());
+  }
+  subject.complete();
 }
