@@ -29,10 +29,9 @@ export class PatientHistoryComponent implements OnInit {
 
   ngOnInit() {
     const subject = new Subject<any[]>();
-    let counter = 0;
     subject.subscribe(p => this.patients = p);
     this.dataService.getPatientHistory(this.patientId)
-      .then(h => getAll(h, subject, this.dataService, FlatPatient.fromResource, () => counter-- > 0));
+      .then(h => getAll(h, subject, this.dataService, FlatPatient.fromResource));
   }
 
   onDropMade($event: any, container: any[]) {

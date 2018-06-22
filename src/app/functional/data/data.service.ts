@@ -29,7 +29,7 @@ export class DataService {
   }
 
   getPatientHistory(patientId: string) {
-    return this.withClient(c => c.history({type: 'Patient', id: patientId}));
+    return this.get(toApi(`Patient/${patientId}/_history?_count=100&_pretty=true`));
   }
 
   updatePatient(patient: Patient) {
